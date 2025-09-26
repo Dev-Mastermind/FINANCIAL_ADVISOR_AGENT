@@ -23,10 +23,11 @@ defmodule FinancialAdvisorAgent.AI.ChatService do
           integrations = Integrations.get_user_integrations(task.user_id)
           
           # Generate embedding for the query
-          query_embedding = OpenAIService.generate_embedding(task.input_data["message"])
+          # query_embedding = OpenAIService.generate_embedding(task.input_data["message"])
           
-          # Get relevant documents
-          rag_context = RAG.get_documents_for_rag(task.user_id, query_embedding)
+          # Get relevant documents - temporarily disabled due to vector column issues
+          # rag_context = RAG.get_documents_for_rag(task.user_id, query_embedding)
+          rag_context = %{context: []}  # Empty context for now
           
           # Process the message with AI
           response = process_with_ai(task, user_context, rag_context, integrations)

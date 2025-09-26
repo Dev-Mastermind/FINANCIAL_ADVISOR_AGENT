@@ -1,187 +1,265 @@
-# Financial Advisor Agent - Setup Instructions
+# Financial Advisor Platform - Setup Instructions
 
 ## Prerequisites
 
-1. **Elixir and Phoenix** - Already installed
-2. **PostgreSQL** - Install if not already installed
-3. **Node.js** - For asset compilation
+1. **Elixir 1.18.4+** - Functional programming language
+2. **Phoenix Framework** - Web framework for Elixir
+3. **PostgreSQL 17+** - Database with vector search capabilities
+4. **Node.js 18+** - For asset compilation and frontend tooling
 
 ## Environment Configuration
 
-The application supports different configurations for development, staging, and production environments.
+The platform supports different configurations for development, staging, and production environments with flexible service integration options.
 
 ### Development Environment (Recommended for Local Development)
 
-**No API keys required!** The application automatically uses mock services in development.
+**Mock services enabled by default** for seamless development without external dependencies.
 
 1. **Copy the example environment file:**
    ```bash
    cp .env.example .env
    ```
 
-2. **The .env file is optional for development** - you can leave all values as placeholders or empty. The app will use mock services automatically.
+2. **Development mode uses mock services** - No external API keys required for basic functionality.
 
-3. **If you want to test with real services in development:**
-   - Set your real API keys in the `.env` file
-   - The app will use real services instead of mocks
+3. **To test with real services in development:**
+   - Configure your API keys in the `.env` file
+   - The platform will automatically switch to real service integrations
 
 ### Staging/Production Environment
 
-**All API keys are required** for staging and production environments.
+**Production-ready configuration** with full service integrations.
 
-Create a `.env` file with real values:
+Create a `.env` file with production values:
 
 ```bash
-# Database (Required)
+# Database Configuration
 DATABASE_URL=postgresql://user:password@host:port/database
 
-# OpenAI (Required)
-OPENAI_API_KEY=sk-proj-your-real-openai-key
+# OpenAI Integration
+OPENAI_API_KEY=sk-proj-your-production-openai-key
 
-# Google OAuth (Required)
-GOOGLE_CLIENT_ID=your-real-google-client-id
-GOOGLE_CLIENT_SECRET=your-real-google-client-secret
+# Google OAuth Integration
+GOOGLE_CLIENT_ID=your-production-google-client-id
+GOOGLE_CLIENT_SECRET=your-production-google-client-secret
 
-# HubSpot (Required)
-HUBSPOT_CLIENT_ID=your-real-hubspot-client-id
-HUBSPOT_CLIENT_SECRET=your-real-hubspot-client-secret
+# HubSpot CRM Integration
+HUBSPOT_CLIENT_ID=your-production-hubspot-client-id
+HUBSPOT_CLIENT_SECRET=your-production-hubspot-client-secret
 HUBSPOT_REDIRECT_URI=https://your-domain.com/hubspot/callback
 
-# Secret Keys (Required)
-SECRET_KEY_BASE=your-real-secret-key-base
-GUARDIAN_SECRET_KEY=your-real-guardian-secret-key
-
-# Phoenix Configuration (Required)
-PHX_HOST=your-domain.com
-PORT=4000
-MIX_ENV=prod
+# Security Configuration
+SECRET_KEY_BASE=your-production-secret-key-base
+GUARDIAN_SECRET_KEY=your-production-guardian-secret-key
 ```
 
 ## Setup Steps
 
-### Quick Start (Development with Mocks)
+### 1. Database Setup
 
-1. **Install dependencies:**
+```bash
+# Create the database
+mix ecto.create
+
+# Run migrations
+mix ecto.migrate
+
+# Optional: Seed with sample data
+mix run priv/repo/seeds.exs
+```
+
+### 2. Asset Compilation
+
+```bash
+# Install dependencies
+mix deps.get
+
+# Compile assets
+mix assets.deploy
+```
+
+### 3. Start the Application
+
+```bash
+# Development server
+mix phx.server
+
+# Or with IEx console
+iex -S mix phx.server
+```
+
+## Service Integrations
+
+### Google OAuth Setup
+
+1. **Google Cloud Console Configuration:**
+   - Create a new project in [Google Cloud Console](https://console.cloud.google.com/)
+   - Enable Gmail API and Google Calendar API
+   - Configure OAuth consent screen
+   - Add authorized redirect URIs:
+     - `http://localhost:4000/auth/google/callback` (development)
+     - `https://your-domain.com/auth/google/callback` (production)
+
+2. **OAuth Credentials:**
+   - Create OAuth 2.0 Client ID
+   - Download credentials and add to `.env` file
+   - Configure authorized domains and redirect URIs
+
+### HubSpot Integration Setup
+
+1. **HubSpot Developer Account:**
+   - Create a HubSpot developer account
+   - Generate a private app with required scopes:
+     - `contacts.read`
+     - `contacts.write`
+     - `crm.objects.contacts.read`
+     - `crm.objects.contacts.write`
+
+2. **API Configuration:**
+   - Copy the access token to your `.env` file
+   - Configure webhook endpoints for real-time updates
+
+### OpenAI Integration Setup
+
+1. **OpenAI Platform:**
+   - Create an account at [OpenAI Platform](https://platform.openai.com/)
+   - Generate an API key with appropriate usage limits
+   - Configure billing and usage monitoring
+
+2. **API Configuration:**
+   - Add the API key to your `.env` file
+   - Configure model preferences and rate limits
+
+## Docker Deployment
+
+### Quick Start with Docker
+
+```bash
+# Build and start all services
+docker-compose up --build
+
+# Run in background
+docker-compose up -d
+```
+
+### Production Docker Setup
+
+```bash
+# Use production configuration
+docker-compose -f docker-compose.yml up -d
+
+# Check service status
+docker-compose ps
+
+# View logs
+docker-compose logs -f
+```
+
+## Configuration Options
+
+### Mock Services (Development)
+
+The platform includes comprehensive mock services for development:
+
+- **Mock OpenAI Service**: Simulates AI responses for testing
+- **Mock Gmail Service**: Simulates email operations
+- **Mock HubSpot Service**: Simulates CRM operations
+- **Mock Google OAuth**: Simulates authentication flow
+
+### Real Services (Production)
+
+Production configuration uses actual service integrations:
+
+- **OpenAI GPT-4**: Real AI-powered financial advisory
+- **Gmail API**: Actual email integration and analysis
+- **Google Calendar**: Real calendar management
+- **HubSpot CRM**: Live CRM synchronization
+
+## Environment Variables Reference
+
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `DATABASE_URL` | PostgreSQL connection string | Yes | `ecto://postgres:postgres@localhost/financial_advisor_agent_dev` |
+| `OPENAI_API_KEY` | OpenAI API key for AI services | Production | Mock service |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID | Production | Mock OAuth |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret | Production | Mock OAuth |
+| `HUBSPOT_API_KEY` | HubSpot API key | Production | Mock CRM |
+| `SECRET_KEY_BASE` | Phoenix secret key | Yes | Generated |
+| `GUARDIAN_SECRET_KEY` | JWT secret key | Yes | Generated |
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Database Connection Issues:**
    ```bash
+   # Check PostgreSQL status
+   brew services list | grep postgres
+   
+   # Restart PostgreSQL
+   brew services restart postgresql
+   ```
+
+2. **Asset Compilation Issues:**
+   ```bash
+   # Clear compiled assets
+   rm -rf _build/
    mix deps.get
+   mix assets.deploy
    ```
 
-2. **Set up the database:**
-   ```bash
-   mix ecto.create
-   mix ecto.migrate
-   ```
+3. **OAuth Configuration Issues:**
+   - Verify redirect URIs match exactly
+   - Check OAuth consent screen configuration
+   - Ensure APIs are enabled in Google Cloud Console
 
-3. **Install assets:**
-   ```bash
-   mix assets.setup
-   mix assets.build
-   ```
+### Development Tips
 
-4. **Start the server:**
-   ```bash
-   mix phx.server
-   ```
+1. **Hot Reloading**: The development server supports hot reloading for instant updates
+2. **Database Reset**: Use `mix ecto.reset` to reset database with fresh migrations
+3. **Asset Watching**: Assets are automatically recompiled on changes
+4. **Console Access**: Use `iex -S mix phx.server` for interactive development
 
-**That's it!** The application will run with mock services - no API keys needed.
+## Security Considerations
 
-### Development with Real Services (Optional)
+### Development Security
+- Mock services don't expose real data
+- Local development uses HTTP (not HTTPS)
+- Database uses local connections only
 
-If you want to test with real services in development:
+### Production Security
+- All communications use HTTPS
+- OAuth tokens are encrypted at rest
+- Database connections are secured
+- API keys are environment-specific
+- Regular security updates and monitoring
 
-1. **Set up your API keys** (see sections below)
-2. **Create a `.env` file** with your real API keys
-3. **Start the server** - it will use real services instead of mocks
+## Performance Optimization
 
-## Google OAuth Setup
+### Development Performance
+- Fast compilation with incremental builds
+- Hot reloading for instant feedback
+- Mock services for rapid iteration
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select existing one
-3. Enable Gmail API and Google Calendar API
-4. Create OAuth 2.0 credentials
-5. Add authorized redirect URIs:
-   - `http://localhost:4000/auth/google/callback`
-6. Copy Client ID and Client Secret to your `.env` file
+### Production Performance
+- Optimized database queries
+- Connection pooling
+- Asset compression and caching
+- CDN integration for static assets
 
-## HubSpot Setup
+## Monitoring and Logging
 
-1. Go to [HubSpot Developer Portal](https://developers.hubspot.com/)
-2. Create a new app
-3. Configure OAuth settings:
-   - Redirect URI: `http://localhost:4000/hubspot/callback`
-   - Scopes: `contacts`, `crm.objects.contacts.read`, `crm.objects.contacts.write`
-4. Copy Client ID and Client Secret to your `.env` file
+### Development Logging
+- Detailed request/response logging
+- Database query logging
+- Error tracking and debugging
 
-## OpenAI Setup
+### Production Monitoring
+- Application performance monitoring
+- Error tracking and alerting
+- Usage analytics and reporting
+- Security monitoring and audit logs
 
-1. Go to [OpenAI Platform](https://platform.openai.com/)
-2. Create an API key
-3. Add the key to your `.env` file
+---
 
-## Features
-
-- **Google OAuth Integration** - Login with Google account
-- **Gmail Integration** - Read and send emails
-- **Calendar Integration** - Schedule and manage appointments
-- **HubSpot Integration** - Manage CRM contacts and notes
-- **AI Chat Interface** - ChatGPT-like interface for interacting with the AI
-- **RAG (Retrieval-Augmented Generation)** - AI uses your data to answer questions
-- **Tool Calling** - AI can perform actions like scheduling, emailing, etc.
-- **Task Management** - Track and manage AI tasks
-- **Memory System** - AI remembers instructions and preferences
-
-## Usage
-
-### Development Mode (with Mocks)
-
-1. Visit `http://localhost:4000`
-2. Click "Login with Google" (uses mock authentication)
-3. The app will simulate Google OAuth with mock user data
-4. Connect HubSpot (optional - uses mock HubSpot integration)
-5. Start chatting with the AI assistant (uses mock OpenAI responses)
-
-### Production Mode (with Real Services)
-
-1. Visit your production URL
-2. Click "Login with Google" (real Google OAuth)
-3. Authorize the application with your Google account
-4. Connect HubSpot (optional - real HubSpot integration)
-5. Start chatting with the AI assistant (real OpenAI responses)
-
-## Mock Services
-
-In development mode, the following services are mocked:
-
-- **OpenAI API** - Returns realistic AI responses without API calls
-- **Google OAuth** - Simulates authentication with mock user data
-- **HubSpot API** - Returns mock CRM data and contacts
-- **Gmail API** - Returns mock email data
-- **All external integrations** - Work with fake data
-
-This allows you to develop and test the application without needing real API keys or making external API calls.
-
-## Deployment
-
-For production deployment, set the following environment variables:
-
-- `DATABASE_URL` - PostgreSQL connection string
-- `SECRET_KEY_BASE` - Phoenix secret key
-- `OPENAI_API_KEY` - OpenAI API key
-- `HUBSPOT_CLIENT_ID` - HubSpot OAuth client ID
-- `HUBSPOT_CLIENT_SECRET` - HubSpot OAuth client secret
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID
-- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret
-- `PHX_HOST` - Your domain name
-- `PORT` - Port number (default: 4000)
-
-## Architecture
-
-The application is built with:
-
-- **Phoenix Framework** - Web framework
-- **Ecto** - Database ORM
-- **PostgreSQL** - Database with pgvector extension for embeddings
-- **Ueberauth** - OAuth authentication
-- **OpenAI API** - AI/LLM integration
-- **Tailwind CSS** - Styling
-- **LiveView** - Real-time UI updates
+For additional support and documentation, please refer to the project documentation or contact the development team.

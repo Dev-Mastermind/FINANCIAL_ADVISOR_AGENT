@@ -71,7 +71,7 @@
     <!-- Chat Input -->
     <div class="bg-white border-t px-6 py-4">
       <form id="chat-form" class="flex space-x-4">
-        <input type="hidden" name="_csrf_token" value={Phoenix.HTML.Tag.csrf_token_value()} />
+        <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
         <div class="flex-1">
           <input 
             type="text" 
@@ -130,8 +130,13 @@
       const data = await response.json();
       
       if (data.success) {
-        // Poll for task completion
-        pollTaskStatus(data.task_id);
+        // Display the AI response immediately
+        if (data.response) {
+          addMessageToChat(data.response, 'ai');
+        } else {
+          // Fallback to polling if no immediate response
+          pollTaskStatus(data.task_id);
+        }
       } else {
         addMessageToChat('Sorry, there was an error processing your message.', 'ai');
       }

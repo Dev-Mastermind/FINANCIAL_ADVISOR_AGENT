@@ -30,20 +30,21 @@ RUN mix assets.deploy
 # Build the release
 RUN mix release
 
-# Runtime stage
-FROM alpine:3.19
+# Runtime stage - Use Debian for better crypto compatibility
+FROM debian:bookworm-slim
 
 # Install runtime dependencies
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     openssl \
-    ncurses-libs \
-    libgcc \
-    libstdc++ \
     libssl3 \
-    libcrypto3
+    libncurses6 \
+    libgcc-s1 \
+    libstdc++6 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
-RUN adduser -D -s /bin/sh app
+RUN useradd -m -s /bin/bash app
 
 # Set the working directory
 WORKDIR /app

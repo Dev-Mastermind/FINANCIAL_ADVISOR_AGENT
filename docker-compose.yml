@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: financial_advisor_agent_prod
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.debian
+    ports:
+      - "4000:4000"
+    env_file:
+      - docker.env
+    environment:
+      - MIX_ENV=prod
+      - PORT=4000
+      - DATABASE_URL=ecto://postgres:postgres@postgres:5432/financial_advisor_agent_prod
+      - SECRET_KEY_BASE=your-secret-key-base-here-replace-with-real-secret
+      - GUARDIAN_SECRET_KEY=your-guardian-secret-key-here
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./priv/repo/migrations:/app/priv/repo/migrations
+    command: >
+      sh -c "
+        echo 'Waiting for database...' &&
+        sleep 10 &&
+        echo 'Running migrations...' &&
+        bin/financial_advisor_agent eval 'FinancialAdvisorAgent.Release.migrate()' &&
+        echo 'Starting application...' &&
+        bin/financial_advisor_agent start
+      "
+
+volumes:
+  postgres_data:

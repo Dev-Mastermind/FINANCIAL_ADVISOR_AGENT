@@ -45,12 +45,13 @@ defmodule FinancialAdvisorAgent.AI.OpenAIService do
         {"Content-Type", "application/json"}
       ]
       
-      case HTTPoison.post("https://api.openai.com/v1/chat/completions", Jason.encode!(request_body), headers) do
-        {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-          response = Jason.decode!(body)
+      case Req.post("https://api.openai.com/v1/chat/completions", 
+          json: request_body,
+          headers: headers) do
+        {:ok, %Req.Response{status: 200, body: response}} ->
           parse_chat_response(response)
-        {:ok, %HTTPoison.Response{status_code: status_code, body: body}} ->
-          Logger.error("OpenAI API error: #{status_code} - #{body}")
+        {:ok, %Req.Response{status: status_code, body: body}} ->
+          Logger.error("OpenAI API error: #{status_code} - #{inspect(body)}")
           {:error, "OpenAI API error: #{status_code}"}
         {:error, error} ->
           Logger.error("OpenAI request failed: #{inspect(error)}")
@@ -77,12 +78,13 @@ defmodule FinancialAdvisorAgent.AI.OpenAIService do
         {"Content-Type", "application/json"}
       ]
       
-      case HTTPoison.post("https://api.openai.com/v1/embeddings", Jason.encode!(request_body), headers) do
-        {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-          response = Jason.decode!(body)
+      case Req.post("https://api.openai.com/v1/embeddings", 
+          json: request_body,
+          headers: headers) do
+        {:ok, %Req.Response{status: 200, body: response}} ->
           response["data"] |> List.first() |> Map.get("embedding")
-        {:ok, %HTTPoison.Response{status_code: status_code, body: body}} ->
-          Logger.error("OpenAI Embeddings API error: #{status_code} - #{body}")
+        {:ok, %Req.Response{status: status_code, body: body}} ->
+          Logger.error("OpenAI Embeddings API error: #{status_code} - #{inspect(body)}")
           {:error, "OpenAI Embeddings API error: #{status_code}"}
         {:error, error} ->
           Logger.error("OpenAI Embeddings request failed: #{inspect(error)}")
