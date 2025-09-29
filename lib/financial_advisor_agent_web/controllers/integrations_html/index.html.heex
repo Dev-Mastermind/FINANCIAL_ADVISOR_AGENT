@@ -1,0 +1,181 @@
+<div class="min-h-screen bg-gray-100">
+  <!-- Header -->
+  <div class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center py-6">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">Integrations</h1>
+          <p class="text-gray-600">Manage your connected services</p>
+        </div>
+        <div class="flex space-x-4">
+          <a href="/dashboard" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+            Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Integration Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Gmail Integration -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center">
+            <span class="text-white text-xl font-bold">G</span>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-xl font-bold text-gray-900">Gmail</h3>
+            <p class="text-gray-600">Email management and search</p>
+          </div>
+        </div>
+        
+        <div class="mb-4">
+          <p class="text-sm text-gray-600 mb-2">Status:</p>
+          <%= if @integrations.gmail do %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Connected
+            </span>
+          <% else %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+              Not Connected
+            </span>
+          <% end %>
+        </div>
+        
+        <div class="space-y-2">
+          <p class="text-sm text-gray-600">Features:</p>
+          <ul class="text-sm text-gray-500 list-disc list-inside">
+            <li>Search through emails</li>
+            <li>Send emails automatically</li>
+            <li>Extract client information</li>
+          </ul>
+        </div>
+        
+        <div class="mt-6 space-y-2">
+          <%= if @integrations.gmail do %>
+            <a href="/integrations/sync?integration=gmail" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-center block">
+              Sync Data
+            </a>
+          <% else %>
+            <p class="text-sm text-gray-500">Gmail is connected via Google OAuth</p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Calendar Integration -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+            <span class="text-white text-xl font-bold">C</span>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-xl font-bold text-gray-900">Google Calendar</h3>
+            <p class="text-gray-600">Calendar management and scheduling</p>
+          </div>
+        </div>
+        
+        <div class="mb-4">
+          <p class="text-sm text-gray-600 mb-2">Status:</p>
+          <%= if @integrations.calendar do %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Connected
+            </span>
+          <% else %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+              Not Connected
+            </span>
+          <% end %>
+        </div>
+        
+        <div class="space-y-2">
+          <p class="text-sm text-gray-600">Features:</p>
+          <ul class="text-sm text-gray-500 list-disc list-inside">
+            <li>Schedule appointments</li>
+            <li>Search calendar events</li>
+            <li>Manage availability</li>
+          </ul>
+        </div>
+        
+        <div class="mt-6 space-y-2">
+          <%= if @integrations.calendar do %>
+            <a href="/integrations/sync?integration=calendar" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-center block">
+              Sync Data
+            </a>
+          <% else %>
+            <p class="text-sm text-gray-500">Calendar is connected via Google OAuth</p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- HubSpot Integration -->
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
+            <span class="text-white text-xl font-bold">H</span>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-xl font-bold text-gray-900">HubSpot</h3>
+            <p class="text-gray-600">CRM and contact management</p>
+          </div>
+        </div>
+        
+        <div class="mb-4">
+          <p class="text-sm text-gray-600 mb-2">Status:</p>
+          <%= if @integrations.hubspot do %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Connected
+            </span>
+          <% else %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+              Not Connected
+            </span>
+          <% end %>
+        </div>
+        
+        <div class="space-y-2">
+          <p class="text-sm text-gray-600">Features:</p>
+          <ul class="text-sm text-gray-500 list-disc list-inside">
+            <li>Manage contacts</li>
+            <li>Create and update records</li>
+            <li>Search CRM data</li>
+          </ul>
+        </div>
+        
+        <div class="mt-6 space-y-2">
+          <%= if @integrations.hubspot do %>
+            <a href="/integrations/sync?integration=hubspot" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-center block">
+              Sync Data
+            </a>
+          <% else %>
+            <a href="/hubspot/connect" class="w-full bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 text-center block">
+              Connect HubSpot
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="mt-12 bg-white rounded-lg shadow-lg p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-4">How to Connect Services</h2>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-lg font-medium text-gray-900">Gmail & Calendar</h3>
+          <p class="text-gray-600">These are automatically connected when you log in with Google OAuth. The AI can access your emails and calendar to help you manage your client relationships.</p>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-medium text-gray-900">HubSpot</h3>
+          <p class="text-gray-600">Click "Connect HubSpot" to authorize access to your HubSpot CRM. You'll need to have a HubSpot account and the appropriate permissions.</p>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-medium text-gray-900">Data Sync</h3>
+          <p class="text-gray-600">After connecting services, use the "Sync Data" buttons to import your existing data into the AI's knowledge base. This allows the AI to answer questions about your clients and their history.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

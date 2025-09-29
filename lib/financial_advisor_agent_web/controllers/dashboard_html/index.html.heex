@@ -1,0 +1,193 @@
+<div class="min-h-screen bg-gray-100">
+  <!-- Header -->
+  <div class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center py-6">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <p class="text-gray-600">Welcome back, <%= @user.name || @user.email %>!</p>
+        </div>
+        <div class="flex space-x-4">
+          <a href="/chat" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+            Start Chat
+          </a>
+          <a href="/auth/logout" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+            Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Integrations Status -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Integrations</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Gmail -->
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                <span class="text-white text-sm font-medium">G</span>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-lg font-medium text-gray-900">Gmail</h3>
+              <p class="text-sm text-gray-500">
+                <%= if @integrations.gmail do %>
+                  <span class="text-green-600">Connected</span>
+                <% else %>
+                  <span class="text-red-600">Not Connected</span>
+                <% end %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                <span class="text-white text-sm font-medium">C</span>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-lg font-medium text-gray-900">Calendar</h3>
+              <p class="text-sm text-gray-500">
+                <%= if @integrations.calendar do %>
+                  <span class="text-green-600">Connected</span>
+                <% else %>
+                  <span class="text-red-600">Not Connected</span>
+                <% end %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- HubSpot -->
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                <span class="text-white text-sm font-medium">H</span>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-lg font-medium text-gray-900">HubSpot</h3>
+              <p class="text-sm text-gray-500">
+                <%= if @integrations.hubspot do %>
+                  <span class="text-green-600">Connected</span>
+                <% else %>
+                  <span class="text-red-600">Not Connected</span>
+                <% end %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <a href="/chat" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+          <div class="text-center">
+            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-white text-xl">💬</span>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900">Start Chat</h3>
+            <p class="text-sm text-gray-500">Ask the AI assistant</p>
+          </div>
+        </a>
+
+        <a href="/integrations" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+          <div class="text-center">
+            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-white text-xl">🔗</span>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900">Integrations</h3>
+            <p class="text-sm text-gray-500">Manage connections</p>
+          </div>
+        </a>
+
+        <a href="/chat" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+          <div class="text-center">
+            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-white text-xl">📅</span>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900">Schedule</h3>
+            <p class="text-sm text-gray-500">Book appointments</p>
+          </div>
+        </a>
+
+        <a href="/chat" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+          <div class="text-center">
+            <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-white text-xl">📧</span>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900">Email</h3>
+            <p class="text-sm text-gray-500">Send messages</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Recent Tasks -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Recent Tasks</h2>
+      <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900">Latest Activity</h3>
+        </div>
+        <div class="divide-y divide-gray-200">
+          <%= for task <- @recent_tasks do %>
+            <div class="px-6 py-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-sm font-medium text-gray-900"><%= task.title %></h4>
+                  <p class="text-sm text-gray-500"><%= task.description %></p>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class={"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium #{case task.status do
+                    "completed" -> "bg-green-100 text-green-800"
+                    "failed" -> "bg-red-100 text-red-800"
+                    "in_progress" -> "bg-yellow-100 text-yellow-800"
+                    _ -> "bg-gray-100 text-gray-800"
+                  end}"}>
+                    <%= task.status %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">AI Instructions</h2>
+      <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900">Current Instructions</h3>
+        </div>
+        <div class="px-6 py-4">
+          <%= if length(@instructions) > 0 do %>
+            <div class="space-y-2">
+              <%= for instruction <- @instructions do %>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                  <p class="text-sm text-gray-800"><%= instruction.value %></p>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-gray-500">No instructions set. The AI will use default behavior.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
