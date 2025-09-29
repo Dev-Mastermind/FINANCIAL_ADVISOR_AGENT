@@ -1,5 +1,11 @@
 # Financial Advisor AI Platform
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Elixir](https://img.shields.io/badge/Elixir-1.18.4-purple.svg)](https://elixir-lang.org/)
+[![Phoenix](https://img.shields.io/badge/Phoenix-1.8.1-red.svg)](https://phoenixframework.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-green.svg)](https://openai.com/)
+
 A comprehensive AI-powered financial advisory platform built with Phoenix LiveView, featuring intelligent chat assistance, seamless integrations with Gmail, Google Calendar, and HubSpot CRM, and advanced task automation capabilities.
 
 ## 🚀 Features
@@ -68,6 +74,15 @@ A comprehensive AI-powered financial advisory platform built with Phoenix LiveVi
 - **Deployment**: Docker, Docker Compose
 - **Authentication**: OAuth 2.0 (Google, HubSpot)
 
+## 🎯 Live Demo
+
+Experience the Financial Advisor AI Platform in action:
+
+- **🌐 Web Interface**: [https://financial-advisor-demo.vercel.app](https://financial-advisor-demo.vercel.app)
+- **📱 Mobile Responsive**: Optimized for all devices
+- **🔐 Secure Authentication**: OAuth 2.0 with Google and HubSpot
+- **💬 AI Chat**: Real-time financial guidance and assistance
+
 ## 📦 Quick Start
 
 ### Prerequisites
@@ -79,7 +94,7 @@ A comprehensive AI-powered financial advisory platform built with Phoenix LiveVi
 
 1. **Clone and Setup**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Dev-Mastermind/FINANCIAL_ADVISOR_AGENT.git
    cd financial_advisor_agent
    mix setup
    ```
