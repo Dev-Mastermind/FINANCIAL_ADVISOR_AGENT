@@ -19,8 +19,7 @@ RUN mix deps.get
 # Copy source code
 COPY . .
 
-# Install Node.js dependencies
-RUN cd assets && npm install
+# Phoenix handles asset compilation through mix tasks
 
 # Expose port
 EXPOSE 4000
