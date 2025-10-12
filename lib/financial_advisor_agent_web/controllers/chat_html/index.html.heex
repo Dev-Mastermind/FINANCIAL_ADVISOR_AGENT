@@ -71,7 +71,7 @@
     <!-- Chat Input -->
     <div class="bg-white border-t px-6 py-4">
       <form id="chat-form" class="flex space-x-4">
-        <input type="hidden" name="_csrf_token" value={Phoenix.HTML.Tag.csrf_token_value()} />
+        <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
         <div class="flex-1">
           <input 
             type="text" 
